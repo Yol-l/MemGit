@@ -3,6 +3,11 @@ summary: "Who you are — basic info, background"
 read_when:
   - Session start (always read first)
   - Before any user-specific decision
+write_rules: |
+  直接替换变更的字段，不追加旧值
+  不超过20条事实
+  只记录用户主动说的个人信息
+  不推断用户背景
 ---
 
 # IDENTITY

@@ -2,6 +2,11 @@
 summary: "Memory index — AI auto-maintains this file"
 read_when:
   - Session start (read right after IDENTITY.md)
+write_rules: |
+  只同步目录结构，不修改文件内容
+  新增文件时读 frontmatter 追加一行
+  删除文件时移除对应行
+  不修改其他行的内容
 ---
 
 # INDEX — 记忆导航图
