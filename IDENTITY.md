@@ -7,7 +7,7 @@ read_when:
 
 # IDENTITY
 
-- **Name**: Yol-l
+- **Name**: Sun
 - **Location**: China
 - **Primary Language**: 中文
 
@@ -16,6 +16,7 @@ read_when:
 - GitHub 上维护 MemGit 项目——给 AI 用的 Git 记忆系统
 - 关注 AI 大模型 + 开发者工具方向
 - 习惯用 WorkBuddy 做 AI 助手
+- 名字叫 Sun
 
 ## Current Context
 
