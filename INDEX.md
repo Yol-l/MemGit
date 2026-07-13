@@ -18,6 +18,7 @@ read_when:
 | `knowledge/learning.md` | 学习计划、读书笔记、技能进展 | 涉及学习话题时 |
 | `knowledge/life.md` | 兴趣爱好、健康习惯、重要关系 | 了解个人生活时 |
 | `knowledge/goals.md` | 人生目标、年度目标、里程碑 | 讨论规划目标时 |
+| `knowledge/projects-memgit.md` | MemGit 项目设计决策记录 | 继续迭代该技能时 |
 
 ---
 
