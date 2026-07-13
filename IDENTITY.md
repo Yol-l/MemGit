@@ -1,24 +1,22 @@
 ---
-summary: "Identity file for MemGit user"
+summary: "Who you are — basic info, background"
 read_when:
   - Session start (always read first)
-  - Before making any user-specific decision
+  - Before any user-specific decision
 ---
 
 # IDENTITY
 
-- **User**: 待填写
-- **GitHub**: https://github.com/Yol-l/MemGit
+- **Name**: Yol-l
+- **Location**: China
 - **Primary Language**: 中文
 
-## Core Facts
+## Quick Facts
 
-<!-- 填写你的核心信息，保持简洁，不超过 10 条 -->
-
-## Preferences
-
-<!-- 记录你的通用偏好：编码风格、沟通方式、工具选择等 -->
+- GitHub 上维护 MemGit 项目——给 AI 用的 Git 记忆系统
+- 关注 AI 大模型 + 开发者工具方向
+- 习惯用 WorkBuddy 做 AI 助手
 
 ## Current Context
 
-<!-- 你当前主要在做的事情 -->
+- 正在设计和迭代 MemGit 记忆系统，目标是让每个人都能拥有跨会话的 AI 长期记忆
