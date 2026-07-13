@@ -23,7 +23,14 @@ write_rules: |
 | `knowledge/learning.md` | 学习计划、读书笔记、技能进展 | 涉及学习话题时 |
 | `knowledge/life.md` | 兴趣爱好、健康习惯、重要关系 | 了解个人生活时 |
 | `knowledge/goals.md` | 人生目标、年度目标、里程碑 | 讨论规划目标时 |
-| `knowledge/projects-memgit.md` | MemGit 项目设计决策记录 | 继续迭代该技能时 |
+
+## 项目索引
+
+| 项目 | Summary | 状态 |
+|------|---------|------|
+| `projects/memgit.md` | Git 驱动的 AI 长期记忆系统 | active |
+
+> 项目文档不在这里。每个项目文件的 frontmatter 中有 `docs` 字段指向项目文档位置。
 
 ---
 
