@@ -6,6 +6,10 @@ read_when:/n  - Planning or strategizing
 
 # 目标
 
+## Summary
+
+<!-- 当前阶段的核心目标 -->
+
 ## 长期愿景（3-5 年）
 
 ## 年度目标

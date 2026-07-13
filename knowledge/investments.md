@@ -6,6 +6,10 @@ read_when:/n  - Discussing finance or investment
 
 # 投资理财
 
+## Summary
+
+<!-- 一句话概括投资风格，3-5 行关键条目 -->
+
 ## 投资理念
 
 ## 当前持仓 / 策略

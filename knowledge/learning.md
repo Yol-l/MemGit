@@ -6,6 +6,10 @@ read_when:/n  - Discussing learning or skill development
 
 # 学习成长
 
+## Summary
+
+<!-- 当前在学什么、主要技能方向 -->
+
 ## 正在学
 
 ## 已掌握的技能
@@ -13,5 +17,3 @@ read_when:/n  - Discussing learning or skill development
 ## 想学的方向
 
 ## 读书 / 课程笔记
-
-## 重要感悟

@@ -6,6 +6,10 @@ read_when:/n  - Adapting output to your style
 
 # 习惯与风格
 
+## Summary
+
+<!-- 用 3-5 句话概括你的关键习惯 -->
+
 ## 工作方式
 
 ## 沟通偏好
