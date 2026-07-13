@@ -1,7 +1,11 @@
 ---
 summary: "Learning plans, skills, books, courses"
-read_when:/n  - Discussing learning or skill development
-  - Recommending books or courses
+read_when:
+  - Discussing learning or skill development; Recommending books or courses
+write_rules: |
+  只记录用户声称掌握的技能
+会用≠掌握
+不给用户技能水平打分
 ---
 
 # 学习成长

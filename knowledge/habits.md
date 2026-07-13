@@ -1,7 +1,11 @@
 ---
 summary: "How you work, communicate, and live"
-read_when:/n  - Adapting output to your style
-  - Choosing tools or workflows
+read_when:
+  - Adapting output to your style; Choosing tools or workflows
+write_rules: |
+  确认2次才写入习惯
+情绪模式只记重复出现的
+偶发行为不记
 ---
 
 # 习惯与风格

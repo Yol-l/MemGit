@@ -1,7 +1,11 @@
 ---
 summary: "Life goals, yearly targets, milestones"
-read_when:/n  - Planning or strategizing
-  - Celebrating achievements
+read_when:
+  - Planning or strategizing; Celebrating achievements
+write_rules: |
+  不代替用户设目标
+状态变更时标注不覆盖
+用户确认后才标记完成
 ---
 
 # 目标

@@ -1,7 +1,11 @@
 ---
 summary: "Your values, principles, and decision-making rules"
-read_when:/n  - Making major decisions
-  - Aligning output with your worldview
+read_when:
+  - Making major decisions; Aligning output with your worldview
+write_rules: |
+  只记录用户明确表达的价值观
+不反推（行为可以出于各种原因）
+不超过30条活跃原则
 ---
 
 # 价值观与原则

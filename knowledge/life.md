@@ -1,7 +1,11 @@
 ---
 summary: "Hobbies, health, relationships, lifestyle"
-read_when:/n  - Getting to know your personal life
-  - Making lifestyle recommendations
+read_when:
+  - Getting to know personal life; Making lifestyle recommendations
+write_rules: |
+  兴趣和健康：确认2次才写
+重要关系：只记录用户主动提及的
+敏感信息放到文件底部
 ---
 
 # 生活
