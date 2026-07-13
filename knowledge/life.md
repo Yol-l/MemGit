@@ -18,4 +18,10 @@ read_when:/n  - Getting to know your personal life
 
 ## 重要关系
 
+## 情绪补给
+
+<!-- 什么能让用户开心/放松 -->
+
+*暂无记录，会在对话中逐步了解*
+
 ## 其他
