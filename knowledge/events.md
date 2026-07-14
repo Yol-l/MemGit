@@ -15,10 +15,10 @@ write_rules: |
 
 ## 进行中
 
-- (07-13 – 至今) [项目] 搭建 MemGit 长期记忆系统 → [projects/memgit/决策.md](../projects/memgit/决策.md) [确认的]
+- (07-13 – 至今) [项目] 搭建 MemGit 长期记忆系统 → [projects/memgit/README.md](../projects/memgit/README.md) [确认的]
 - (07-14 – 至今) [学习] 研究 AI 记忆技术路线 → [learning.md](learning.md) [确认的]
 - (07-14 – 2027) [生活] 计划明年去马来西亚 → [goals.md](goals.md) [确认的]
-- (07-14 – 2026-07-15) [工作] 明天做部门记忆系统分享 → [projects/分享/项目.md](../projects/分享/项目.md)
+- (07-14 – 2026-07-15) [工作] 明天做部门记忆系统分享 → [projects/分享/README.md](../projects/分享/README.md)
 
 ## 已完成
 

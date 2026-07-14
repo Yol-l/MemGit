@@ -30,8 +30,8 @@ write_rules: |
 
 | 项目 | Summary | 状态 |
 |------|---------|------|
-| `projects/memgit/决策.md` | Git 驱动的 AI 长期记忆系统 | active |
-| `projects/分享/项目.md` | 部门分享 — AI 记忆系统 | active |
+| `projects/memgit/README.md` | Git 驱动的 AI 长期记忆系统 | active |
+| `projects/分享/README.md` | 部门分享 — AI 记忆系统 | active |
 
 > 项目文档不在这里。每个项目文件的 frontmatter 中有 `docs` 字段指向项目文档位置。
 

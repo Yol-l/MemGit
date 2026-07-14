@@ -15,8 +15,8 @@ write_rules: |
 
 | 项目 | Summary | 文档位置 | 状态 |
 |------|---------|---------|------|
-| `memgit/决策.md` | Git 驱动的 AI 长期记忆系统 | `https://github.com/Yol-l/MemGit` | active |
-| `分享/项目.md` | 部门分享 — AI 记忆系统 | 仓库内 `分享/记忆系统分享.html` | active |
+| `memgit/README.md` | Git 驱动的 AI 长期记忆系统 | `https://github.com/Yol-l/MemGit` | active |
+| `分享/README.md` | 部门分享 — AI 记忆系统 | 仓库内 `分享/记忆系统分享.html` | active |
 
 ## 已归档项目
 
