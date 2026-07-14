@@ -116,6 +116,8 @@ write_rules: |
 
 每条条目首次写入标注日期和信心水平：`explicit`（用户亲口说）、`inferred`（AI 推断）、`stale`（1 年未确认）、`uncertain`（用户说"可能"）。引用推断型记忆时语气轻一些。
 
+**explicit vs inferred 的判定**：用户直接陈述偏好（"我喜欢X""我决定用X"）= explicit。用户使用某技术但不表态（"帮我写X代码"）= inferred，需确认 2 次。
+
 ### 禁止存储
 
 以下内容**绝对不能**写入任何记忆文件：

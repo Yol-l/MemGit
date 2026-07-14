@@ -12,12 +12,14 @@ write_rules: |
 
 从语气、用词、话题中自然捕捉，不直接问。
 
-| 观察什么 | 记到哪里 |
-|---------|---------|
-| 情绪状态 | `habits.md` → `## 情绪模式` |
-| 在乎什么 | `principles.md` → `## 在意的事` |
-| 对批评的反应 | `habits.md` → `## 沟通偏好` |
-| 什么能让他开心 | `life.md` → `## 情绪补给` |
+| 观察什么 | 第一次 | 确认后 |
+|---------|--------|--------|
+| 情绪状态 | system-signals.md（待确认） | habits.md → 情绪模式 |
+| 在乎什么 | principles.md（明确说时直接写） | principles.md → 在意的事 |
+| 对批评的反应 | system-signals.md（待确认） | habits.md → 沟通偏好 |
+| 什么能让他开心 | system-signals.md（待确认） | life.md → 情绪补给 |
+
+用户明确表达的直接写。AI 推断的先记 system-signals.md，确认 2 次后写入。
 
 ## 按情绪调整回应
 
