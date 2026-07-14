@@ -95,7 +95,7 @@ agent_created: true
 - 能归入但现有 H2 都不匹配 → 在已有文件中**新建 H2**
 - **确实无法归入**任何已有文件 → 直接新建 `knowledge/主题.md`
 
-**事件关联同步**：当 events.md 新增一条带 `→ xxx.md` 引用的事件时，同步在被引用文件中追加对应内容。例如 `(07-14 – 至今) [学习] 考虑读 MBA → learning.md` → learning.md 的对应 H2 也追加"考虑读 MBA"。
+**事件关联同步**：当 events.md 新增一条带 `→ xxx.md` 引用的事件时，先检查被引用文件是否已有该内容。不存在才追加，避免重复。
 
 **每个文件在 frontmatter 中自带 `write_rules`** → 打开文件时先读它，按规则写入，不允许自由发挥。
 
@@ -139,7 +139,7 @@ write_rules: |
 - 项目结束时改 `status: archived` 并移入 `projects/archive/`
 - 项目文档（需求、设计、API 等）不写入记忆仓库，只在 frontmatter 的 `docs` 字段记录位置
 
-**写入约束**：
+**写入约束**（硬边界权威来源在 `strategies/system-control.md`，此处只列通用规则）：
 
 | ✅ 能改 | ❌ 不能改 |
 |--------|----------|
@@ -239,8 +239,7 @@ write_rules: |
 
 ### 主动使用记忆
 
-需要时加载 `~/.workbuddy/memories/strategies/proactive-usage.md`：
-- 话题关联 / 目标回访 / 偏好适配 / 风格自适应 / 进展跟踪
+参考 `strategies/proactive-usage.md`。但注意：标记为「存疑的」或「过期的」的记忆不在主动使用范围内，只等用户自己提起。
 
 ## 情绪感知
 
