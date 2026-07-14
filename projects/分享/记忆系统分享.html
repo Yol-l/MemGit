@@ -103,7 +103,7 @@ p { font-size: 14px; color: #4b5563; line-height: 1.75; }
     <span>外置记忆</span>
     <span>参数化记忆</span>
     <span>隐式记忆</span>
-    <span>Git + Markdown</span>
+    <span>Skills + Git + Markdown</span>
     <span>自成长架构</span>
   </div>
   <div class="meta">
@@ -236,9 +236,9 @@ p { font-size: 14px; color: #4b5563; line-height: 1.75; }
     </tr>
     <tr class="hl">
       <td><strong>MemGit</strong><br><span style="font-size:11px;color:#9ca3af;">（我在做的）</span></td>
-      <td>纯文本 Markdown<br>+ Git 版本控制</td>
+      <td>Skills + Markdown<br>+ Git 版本控制</td>
       <td>个人项目</td>
-      <td>文件即记忆，frontmatter 自带读写规则，渐进式加载，自成长 + 异常恢复机制</td>
+      <td>Skills（可执行规则）驱动 AI 如何读写记忆。Markdown 存数据，Git 管版本。文件即记忆，每个文件 frontmatter 自带读写规则，自成长 + 异常恢复机制</td>
       <td>无检索引擎，依赖文件结构设计。但 100% 透明、用户拥有数据、跨平台通用</td>
     </tr>
   </table>
@@ -277,33 +277,30 @@ p { font-size: 14px; color: #4b5563; line-height: 1.75; }
 
 <!-- 6. 我感兴趣的方向 -->
 <div class="slide" data-n="06">
-  <h2>我感兴趣的方向 <span class="sub">— Git + Markdown 管理记忆</span></h2>
-  <p class="lead">不是"更好的方案"，只是我在探索的一个方向。核心想法：<strong>用户拥有自己的记忆数据，AI 来读写，但不持有</strong>。</p>
+  <h2>我感兴趣的方向 <span class="sub">— Skills + Git + Markdown</span></h2>
+  <p class="lead">不是"更好的方案"，只是我在探索的一个方向。核心想法：<strong>三层结构 —— Skills（AI 的执行规则）+ Git（版本控制）+ Markdown（记忆数据）</strong>。</p>
   <div class="grid-2">
     <div class="card">
-      <span class="tag purple">设计思路</span>
-      <h3>文件即记忆</h3>
-      <p style="margin-bottom:8px;">记忆不是数据库里的向量，是<strong>你可以直接打开阅读的 Markdown 文件</strong>。</p>
-      <p style="margin-bottom:8px;">每个文件自带 frontmatter（摘要 + 读取时机 + 写入规则），AI 打开文件第一眼就知道：这是什么、什么时候读、怎么写。</p>
-      <p>用 Git 做版本控制——每次修改都有 commit 记录，改坏了能回滚。</p>
+      <span class="tag purple">三层架构</span>
+      <h3>Skills 驱动，Git 管理，Markdown 存储</h3>
+      <p style="margin-bottom:8px;"><strong>Skills 层</strong>：一个 SKILL.md 文件定义了 AI 如何读取、写入、自检、自愈。它是"AI 操作记忆的操作系统"——AI 加载这个技能后才知道记忆怎么用。</p>
+      <p style="margin-bottom:8px;"><strong>Git 层</strong>：版本控制 + 多设备同步 + 历史回滚。每次变更可追溯。</p>
+      <p style="margin-bottom:8px;"><strong>Markdown 层</strong>：记忆数据存为 Markdown 文件。每个文件 frontmatter 自带读写规则，AI 打开第一眼就知道该怎么做。</p>
+      <p>三层分工明确：Skills 告诉 AI "怎么做"，Git 管"怎么存"，Markdown 存"记什么"。</p>
     </div>
     <div class="card">
-      <span class="tag green">为什么选 Git</span>
-      <h3>四个理由</h3>
-      <p style="margin-bottom:6px;"><strong>1. 版本控制</strong>——记忆的每次变更可追溯，回滚到任意历史版本</p>
-      <p style="margin-bottom:6px;"><strong>2. 多设备同步</strong>——push/pull 就能跨设备保持记忆一致</p>
-      <p style="margin-bottom:6px;"><strong>3. 用户拥有数据</strong>——不依赖任何 AI 平台，换工具记忆跟着你走</p>
-      <p><strong>4. 可分享</strong>——fork 仓库就能把记忆策略分享给别人</p>
+      <span class="tag green">为什么这样设计</span>
+      <h3>三个理由</h3>
+      <p style="margin-bottom:6px;"><strong>1. 技能可分享</strong>——Skills 文件放在仓库里，任何人 fork 就能用同一套规则，不需要自己配</p>
+      <p style="margin-bottom:6px;"><strong>2. 数据在用户手里</strong>——不依赖任何 AI 平台，换工具记忆跟着你走</p>
+      <p><strong>3. 规则可演化</strong>——Skills 本身也在 Git 里，改规则有历史、可回滚、可分享</p>
     </div>
-  </div>
-  <div class="note blue">
-    <strong>与市面方案的区别</strong>：Mem0/Letta 把记忆存在数据库里，用户看不到也改不了。ChatGPT 的记忆是黑箱。我的方向是——记忆就是文件，放在你自己的 Git 仓库里，任何 AI 工具都能读，但你随时可以打开编辑。
   </div>
 </div>
 
 <!-- 7. 系统结构 -->
 <div class="slide" data-n="07">
-  <h2>系统结构 <span class="sub">— 目录即架构</span></h2>
+  <h2>系统结构 <span class="sub">— Skills + Git + Markdown 三层</span></h2>
   <div class="code">
 <span class="c">memories/                         ← 你的 Git 仓库</span>
 ├── <span class="file">IDENTITY.md</span>                <span class="c"># 你是谁（每次会话先读）</span>
@@ -327,13 +324,13 @@ p { font-size: 14px; color: #4b5563; line-height: 1.75; }
 │
 ├── <span class="dir">library/</span>                    <span class="c"># 大段代码/资料（按需读，不进上下文）</span>
 │
-└── <span class="dir">strategies/</span>                 <span class="c"># 记忆维护策略（可共享给他人）</span>
+└── <span class="dir">strategies/</span>                 <span class="c"># Skills 层——记忆维护策略（可共享给他人）</span>
     ├── <span class="file">system-control.md</span>       <span class="c"># 硬边界 + 膨胀阈值 + 自检规则</span>
     ├── <span class="file">self-growth.md</span>          <span class="c"># 合并、压缩、冲突、分裂规则</span>
     ├── <span class="file">proactive-usage.md</span>      <span class="c"># 主动使用记忆的规则</span>
     └── <span class="file">emotional-awareness.md</span>  <span class="c"># 情绪感知规则</span>
   </div>
-  <p style="margin-top:14px;font-size:13px;color:#6b7280;">纯文本 · 无平台依赖 · Git 版本控制 · 每个文件 frontmatter 自带读写规则 · 任意 AI 工具通用</p>
+  <p style="margin-top:14px;font-size:13px;color:#6b7280;">三层分工：Skills（AI 操作规则）→ Git（版本 + 同步）→ Markdown（记忆数据）</p>
 </div>
 
 <!-- 8. 渐进式加载 -->
@@ -522,30 +519,8 @@ p { font-size: 14px; color: #4b5563; line-height: 1.75; }
   </div>
 </div>
 
-<!-- 14. 项目数据 -->
+<!-- 14. 设计理念 -->
 <div class="slide" data-n="14">
-  <h2>项目数据 <span class="sub">— 不是 demo，是反复验证过的系统</span></h2>
-  <div class="grid-4">
-    <div class="card" style="text-align:center;"><div class="num">50+</div><p>次设计提交</p></div>
-    <div class="card" style="text-align:center;"><div class="num">30+</div><p>轮模拟对话验证</p></div>
-    <div class="card" style="text-align:center;"><div class="num">30+</div><p>处漏洞在验证中修复</p></div>
-    <div class="card" style="text-align:center;"><div class="num">22</div><p>个文件 · 全部有规则</p></div>
-  </div>
-  <div class="grid-2" style="margin-top:16px;">
-    <div class="card">
-      <h3>系统覆盖</h3>
-      <p style="font-size:13px;">5 个闭环 · 6 条核心原则 · 8 条硬边界 · 14+ 项自检 · 5 种合并方式 · 5 个膨胀阈值 · 4 维度系统反思</p>
-    </div>
-    <div class="card">
-      <h3>验证覆盖</h3>
-      <p style="font-size:13px;">模拟了 30+ 轮真实对话场景。发现并修复了 30+ 个漏洞——从级联更新超限到幻觉纠偏到中文文件名归类，每一轮都在变好。</p>
-    </div>
-  </div>
-</div>
-
-<!-- 15. 设计理念 -->
-<div class="slide" data-n="15">
-  <h2>设计理念 <span class="sub">— 四个核心判断</span></h2>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:20px 0;">
     <div style="border-left:4px solid #10b981;padding:14px 20px;background:#ecfdf5;border-radius:0 10px 10px 0;">
       <h3 style="color:#065f46;">记忆是待验证的断言</h3>
@@ -567,7 +542,7 @@ p { font-size: 14px; color: #4b5563; line-height: 1.75; }
 </div>
 
 <!-- 16. 局限与展望 -->
-<div class="slide" data-n="16">
+<div class="slide" data-n="15">
   <h2>已知局限与展望 <span class="sub">— 诚实面对</span></h2>
   <div class="grid-2">
     <div class="card">

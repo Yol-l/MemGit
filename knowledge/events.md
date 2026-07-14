@@ -19,6 +19,7 @@ write_rules: |
 - (07-14 – 至今) [学习] 研究 AI 记忆技术路线 → [learning.md](learning.md) [确认的]
 - (07-14 – 2027) [生活] 计划明年去马来西亚 → [goals.md](goals.md) [确认的]
 - (07-14 – 2026-07-15) [工作] 明天做部门记忆系统分享 → [projects/分享/README.md](../projects/分享/README.md)
+- (07-15 – 至今) [投资] 研究中国化学（601117.SH）利润增长逻辑 → investments.md
 
 ## 已完成
 
