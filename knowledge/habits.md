@@ -3,9 +3,10 @@ summary: "How you work, communicate, and live"
 read_when:
   - Adapting output to your style; Choosing tools or workflows
 write_rules: |
-  确认2次才写入习惯
-情绪模式只记重复出现的
-偶发行为不记
+  explicit 偏好直接写入（用户说"我决定用X"）
+  inferred 偏好需确认2次才写入
+  情绪模式只记重复出现的
+  偶发行为不记
 ---
 
 # 习惯与风格
