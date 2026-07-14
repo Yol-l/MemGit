@@ -15,9 +15,9 @@ write_rules: |
 
 ## 进行中
 
-- (07-13 – 至今) [项目] 搭建 MemGit 长期记忆系统 → projects/memgit.md [explicit]
-- (07-14 – 至今) [学习] 研究 AI 记忆技术路线 → learning.md [explicit]
-- (07-14 – 2027) [生活] 计划明年去马来西亚 → goals.md [explicit]
+- (07-13 – 至今) [项目] 搭建 MemGit 长期记忆系统 → projects/memgit.md [确认的]
+- (07-14 – 至今) [学习] 研究 AI 记忆技术路线 → learning.md [确认的]
+- (07-14 – 2027) [生活] 计划明年去马来西亚 → goals.md [确认的]
 
 ## 已完成
 
