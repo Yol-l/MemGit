@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 大模型记忆系统 — 设计与实践</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', sans-serif; background: #f5f5f7; color: #1d1d1f; line-height: 1.6; }
+.slide { max-width: 1100px; margin: 0 auto; padding: 60px 40px; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; border-bottom: 1px solid #ddd; background: #fff; }
+.slide:first-child { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #fff; }
+.slide:first-child h1 { font-size: 48px; font-weight: 700; margin-bottom: 20px; }
+.slide:first-child p { font-size: 20px; color: #a0a0b0; }
+h2 { font-size: 32px; font-weight: 600; margin-bottom: 30px; color: #1d1d1f; }
+h3 { font-size: 22px; font-weight: 500; margin: 20px 0 10px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin: 20px 0; }
+.card { background: #f8f8fa; border-radius: 12px; padding: 24px; border: 1px solid #e8e8ed; }
+.card h3 { margin-top: 0; font-size: 18px; }
+.card p { font-size: 14px; color: #555; }
+.tag { display: inline-block; background: #0071e3; color: #fff; font-size: 12px; padding: 2px 10px; border-radius: 12px; margin-bottom: 8px; }
+.tag.green { background: #34c759; }
+.tag.orange { background: #ff9500; }
+.tag.purple { background: #af52de; }
+.comp-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; }
+.comp-table th { background: #f0f0f2; text-align: left; padding: 12px 16px; font-weight: 600; border-bottom: 2px solid #ddd; }
+.comp-table td { padding: 12px 16px; border-bottom: 1px solid #eee; }
+.comp-table tr:hover { background: #f8f8fa; }
+.highlight { background: #fff3cd; padding: 12px 20px; border-radius: 8px; border-left: 4px solid #ffc107; margin: 16px 0; font-size: 14px; }
+.flow { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin: 24px 0; }
+.flow-step { background: #0071e3; color: #fff; padding: 10px 20px; border-radius: 8px; font-size: 13px; font-weight: 500; }
+.flow-arrow { font-size: 20px; color: #999; }
+.arch-box { background: #f0f0f2; border-radius: 12px; padding: 20px; font-family: 'SF Mono', monospace; font-size: 13px; line-height: 1.8; margin: 16px 0; }
+.footer-note { font-size: 12px; color: #999; margin-top: 40px; text-align: center; }
+.file-tree { font-family: 'SF Mono', monospace; font-size: 13px; line-height: 2; margin: 16px 0; }
+.file-tree .dir { color: #0071e3; font-weight: 500; }
+.file-tree .file { color: #333; }
+</style>
+</head>
+<body>
+
+<div class="slide">
+  <h1>AI 大模型记忆系统</h1>
+  <p>技术路线全景 · 自成长记忆架构 · 实践分享</p>
+  <p style="margin-top:40px;font-size:14px;color:#666;">Sun | 2026-07-14</p>
+</div>
+
+<div class="slide">
+  <h2>一、AI 记忆的基本问题</h2>
+  <p style="font-size:18px;margin-bottom:24px;">大模型先天无状态——每次对话都是"初次见面"。它不记得你是谁、你们聊过什么。</p>
+  <div class="grid-3">
+    <div class="card">
+      <span class="tag">挑战 1</span>
+      <h3>上下文窗口有限</h3>
+      <p>就算最新的模型也就 200K token 左右，对话一长就把早期的记忆挤掉了。</p>
+    </div>
+    <div class="card">
+      <span class="tag">挑战 2</span>
+      <h3>AI 有幻觉</h3>
+      <p>记住的东西可能是错的，而且会自信地复述错误信息。</p>
+    </div>
+    <div class="card">
+      <span class="tag">挑战 3</span>
+      <h3>跨会话空白</h3>
+      <p>每次新建对话，AI 对你的了解从头开始，没有连续性。</p>
+    </div>
+  </div>
+</div>
+
+<div class="slide">
+  <h2>二、当前市面上的三条技术路线</h2>
+
+  <div class="grid-3">
+    <div class="card">
+      <span class="tag purple">路线一</span>
+      <h3>外置记忆库</h3>
+      <p style="font-size:13px;color:#888;">最成熟，商业化最充分</p>
+      <p>不改变模型，在外面建数据库存记忆。对话时检索注入上下文。</p>
+      <p style="margin-top:8px;font-size:12px;color:#555;">代表：Mem0、Letta、Graphiti</p>
+    </div>
+    <div class="card">
+      <span class="tag green">路线二</span>
+      <h3>参数化记忆</h3>
+      <p style="font-size:13px;color:#888;">效果最好，成本最高</p>
+      <p>把知识微调进模型权重，变成"肌肉记忆"——不用检索就能用。</p>
+      <p style="margin-top:8px;font-size:12px;color:#555;">代表：Character.AI、Gorilla</p>
+    </div>
+    <div class="card">
+      <span class="tag orange">路线三</span>
+      <h3>隐式记忆</h3>
+      <p style="font-size:13px;color:#888;">最新，效率最高</p>
+      <p>不存具体内容，存"思考时的脑活动模式"——KV Cache 管理。</p>
+      <p style="margin-top:8px;font-size:12px;color:#555;">代表：Google CoMEM、LongBench</p>
+    </div>
+  </div>
+
+  <div class="highlight">
+    <strong>个人关注方向</strong>：三条路线不互斥。我感兴趣的是用 Git + 纯文本这种轻量方式来做记忆管理——关键不在于技术多先进，而在于数据透明、用户可控、跨平台通用。
+  </div>
+</div>
+
+<div class="slide">
+  <h2>三、我感兴趣的方向：用 Git 管理记忆</h2>
+  <p style="font-size:16px;margin-bottom:20px;">Git 做版本管理、Markdown 做记忆载体、纯本地不依赖云。不是我发明的，是一种小众但有意思的实践方向。</p>
+
+  <table class="comp-table">
+    <tr><th>方案</th><th>存储</th><th>我的关注点</th></tr>
+    <tr><td><strong>Mem0</strong></td><td>向量数据库</td><td>检索靠向量相似度，AI 自己判断哪条记忆有用——有点重</td></tr>
+    <tr><td><strong>Letta(MemGPT)</strong></td><td>三层内存</td><td>系统设计很好，但跟平台绑定，不跨工具</td></tr>
+    <tr><td><strong>Graphiti</strong></td><td>时序知识图谱</td><td>复杂，图谱结构对 AI 不如 Markdown 直观</td></tr>
+    <tr><td><strong>ChatGPT 记忆</strong></td><td>服务端数据库</td><td>黑箱，用户看不到记了什么、改不了、拿不走</td></tr>
+    <tr><td><strong>Git + Skills</strong></td><td>Markdown + Git</td><td>我在尝试的方向——透明、轻量、你拥有数据</td></tr>
+  </table>
+
+  <div class="highlight" style="margin-top:24px;">
+    <strong>我的兴趣点</strong>：探索一套"用户拥有数据、AI 自成长、可跨平台"的记忆方案。不一定是最好的，但我想试试。
+  </div>
+</div>
+
+<div class="slide">
+  <h2>四、MemGit 的设计思路</h2>
+  <p style="font-size:16px;margin-bottom:20px;">用 Git 和 Markdown 做记忆——你拥有数据，AI 自我维护。</p>
+
+  <div class="arch-box" style="background:#1a1a2e; color:#fff;">
+├── IDENTITY.md           # 你是谁（核心身份）
+├── INDEX.md              # 记忆导航图
+├── knowledge/            # 个人记忆（不限文件）
+│   ├── events.md         # 近期持续性事件
+│   ├── principles.md     # 价值观与原则
+│   ├── habits.md         # 习惯与风格
+│   ├── learning.md       # 学习成长
+│   └── goals.md          # 人生目标
+├── projects/             # 项目记忆（一个项目一个文件）
+├── strategies/           # 记忆维护策略（可共享）
+└── library/              # 代码/资料备忘（按需读）
+  </div>
+
+  <p style="margin-top:16px;font-size:14px;">纯文本 · 纯本地 · 纯 Git · 任意平台通用</p>
+</div>
+
+<div class="slide">
+  <h2>五、核心原则：自成长 + 异常恢复</h2>
+
+  <div class="grid-3">
+    <div class="card" style="border-left:4px solid #34c759;">
+      <h3>自成长</h3>
+      <p>系统自己演化架构、新增分类、自我优化。</p>
+      <p style="margin-top:8px;font-size:13px;color:#666;">包含：渐进自检、养护优先、主动感知、膨胀合并</p>
+    </div>
+    <div class="card" style="border-left:4px solid #ff3b30;">
+      <h3>异常恢复</h3>
+      <p>AI 幻觉自动纠偏、记忆损坏恢复、规则冲突自检。</p>
+      <p style="margin-top:8px;font-size:13px;color:#666;">用户发现错误只需一句话，系统自动修正</p>
+    </div>
+    <div class="card" style="border-left:4px solid #0071e3;">
+      <h3>规则在先</h3>
+      <p>先定规则再建文件。AI 不能自由发挥。</p>
+      <p style="margin-top:8px;font-size:13px;color:#666;">每条记忆写入前经过 8 条硬边界自检</p>
+    </div>
+  </div>
+</div>
+
+<div class="slide">
+  <h2>六、每轮对话的记忆流转</h2>
+
+  <div class="flow">
+    <div class="flow-step">用户说话</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step" style="background:#5ac8fa;">过记忆</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step" style="background:#ff9500;">自然接话</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step" style="background:#34c759;">记不记</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step" style="background:#ff3b30;">自检 8 条</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step" style="background:#5856d6;">写入 + 审计</div>
+  </div>
+
+  <div style="margin-top:24px;">
+
+  <div style="margin:10px 0;"><strong>📥 读取</strong>：每次启动读身份 → 事件 → 索引 → 渐进按需深入</div>
+  <div style="margin:10px 0;"><strong>📝 写入</strong>：归属判断 → 打开文件读 write_rules → 按规则写 → 自检 8 条 → 膨胀阈值检查</div>
+  <div style="margin:10px 0;"><strong>🔄 自愈</strong>：用户否认 → 立即修正 → 同级降级 → 不再引用，直到用户重新确认</div>
+  <div style="margin:10px 0;"><strong>📊 审计</strong>：每次会话结束输出变更摘要，写入 git commit。下次启动自检校验一致性</div>
+
+  </div>
+</div>
+
+<div class="slide">
+  <h2>七、系统自闭环</h2>
+
+  <table class="comp-table">
+    <tr><th>闭环</th><th>机制</th><th>频率</th></tr>
+    <tr><td><strong>记忆闭环</strong></td><td>写入 → 自检 → 修复 → 审计 → 下次验证</td><td>每会话</td></tr>
+    <tr><td><strong>自成长闭环</strong></td><td>系统反思 4 维度 → 信号积累 → 达阈值 → 自适应协议 → CHANGELOG 记录</td><td>每 5 轮</td></tr>
+    <tr><td><strong>异常恢复闭环</strong></td><td>用户否认 → 修正 + 降级 → 不再引用 → 自然话题确认</td><td>用户触发</td></tr>
+    <tr><td><strong>规则闭环</strong></td><td>观察违规模式 → 提议改规则 → 用户确认 → 归档旧规则</td><td>约 30 次会话/次</td></tr>
+    <tr><td><strong>膨胀合并闭环</strong></td><td>H2 超 30 行 → 立即压缩 → 存档超 50 行 → 二次压缩</td><td>P0 立即触发</td></tr>
+  </table>
+
+  <div class="highlight" style="margin-top:24px;">
+    系统的五种闭环相互嵌套，高频的（每会话）保证内容质量，低频的（30 会话/次）保证规则质量。系统不依赖外部维护，自己检查、自己修复、自己进化。
+  </div>
+</div>
+
+<div class="slide">
+  <h2>八、设计中想实现的自愈机制</h2>
+
+  <div style="background:#f0f0f2;border-radius:12px;padding:20px;font-family:monospace;font-size:13px;">
+    <div style="color:#888;"># 假设场景：AI 记错了</div>
+    <div>AI: "你之前说喜欢榴莲"</div>
+    <div style="color:#ff3b30;">你: "我不喜欢"</div>
+    <div style="color:#34c759;">→ 设计上希望它自动修正 + 不再提错误的记忆</div>
+    <br>
+    <div style="color:#888;"># 这就是为什么在探索自愈机制</div>
+  </div>
+
+  <p style="margin-top:16px;font-size:14px;">这个方向还在探索中——目标是在正常对话中自然纠正记忆，用户不需要主动"修改"，说一句就行。</p>
+</div>
+
+<div class="slide">
+  <h2>九、适用场景</h2>
+
+  <div class="grid-3">
+    <div class="card">
+      <span class="tag green">日常个人使用</span>
+      <h3>长期助手</h3>
+      <p>记住你的偏好、习惯、目标，每次对话越来越了解你。项目决策、技术备忘、人生规划。</p>
+    </div>
+    <div class="card">
+      <span class="tag blue">技术团队</span>
+      <h3>知识沉淀</h3>
+      <p style="font-size:14px;color:#333;">项目决策记录、踩坑记录、代码规范。团队 fork 同一模板仓库，每人维护自己的版本。</p>
+    </div>
+    <div class="card">
+      <span class="tag orange">跨平台</span>
+      <h3>记忆随身</h3>
+      <p>WorkBuddy、Claude Code、Cursor……纯文本 + Git，任意平台通用。</p>
+    </div>
+  </div>
+</div>
+
+<div class="slide">
+  <h2>十、项目的核心数据</h2>
+
+  <div class="grid-3">
+    <div class="card" style="text-align:center;">
+      <div style="font-size:36px;font-weight:700;color:#0071e3;">50</div>
+      <div style="font-size:13px;color:#666;">次设计迭代提交</div>
+    </div>
+    <div class="card" style="text-align:center;">
+      <div style="font-size:36px;font-weight:700;color:#34c759;">18</div>
+      <div style="font-size:13px;color:#666;">轮模拟对话验证</div>
+    </div>
+    <div class="card" style="text-align:center;">
+      <div style="font-size:36px;font-weight:700;color:#ff9500;">30+</div>
+      <div style="font-size:13px;color:#666;">处漏洞在验证中修复</div>
+    </div>
+  </div>
+  <p style="margin-top:12px;font-size:13px;color:#888;">不是一时半会的想法——是迭代验证出来的系统。</p>
+</div>
+
+<div class="slide">
+  <h2>十一、设计理念总结</h2>
+
+  <div style="max-width:600px;margin:0 auto;">
+    <div style="margin:16px 0;padding:16px;border-left:4px solid #34c759;">
+      <strong>记忆是待验证的断言，不是事实</strong><br>
+      <span style="font-size:14px;color:#666;">AI 会错，但每轮对话都是修复机会</span>
+    </div>
+    <div style="margin:16px 0;padding:16px;border-left:4px solid #0071e3;">
+      <strong>用户拥有数据，AI 提供维护</strong><br>
+      <span style="font-size:14px;color:#666;">纯文本 + Git，数据是你的，AI 只是帮你管理</span>
+    </div>
+    <div style="margin:16px 0;padding:16px;border-left:4px solid #ff9500;">
+      <strong>自成长 > 完美初始设计</strong><br>
+      <span style="font-size:14px;color:#666;">不追求一次性设计完备，系统自己演化和修复</span>
+    </div>
+    <div style="margin:16px 0;padding:16px;border-left:4px solid #5856d6;">
+      <strong>不替代用户决策，不骚扰用户</strong><br>
+      <span style="font-size:14px;color:#666;">AI 只能提议，不能改规则。用户否认才处理</span>
+    </div>
+</div>
+
+<div class="slide" style="background:#1a1a2e;color:#fff;text-align:center;">
+  <h2 style="color:#fff;">谢谢</h2>
+  <p style="font-size:18px;color:#a0a0b0;margin-top:20px;">以上是我正在探索的个人项目方向，欢迎交流讨论</p>
+  <p style="font-size:14px;color:#666;margin-top:40px;">github.com/Yol-l/MemGit</p>
+</div>
+
+</body>
+</html>
