@@ -1,11 +1,12 @@
 ---
 summary: "Hobbies, health, relationships, lifestyle"
 read_when:
-  - Getting to know personal life; Making lifestyle recommendations
+  - Getting to know personal life
+  - Making lifestyle recommendations
 write_rules: |
   兴趣和健康：确认2次才写
-重要关系：只记录用户主动提及的
-敏感信息放到文件底部
+  重要关系：只记录用户主动提及的
+  敏感信息放到文件底部
 ---
 
 # 生活
@@ -15,8 +16,8 @@ write_rules: |
 喜欢海边和榴莲，有去马来西亚旅游的计划。
 
 ## 兴趣爱好
-- (2026-07) 喜欢去海边
-- (2026-07) 喜欢吃榴莲
+- (2026-07, explicit) 喜欢去海边
+- (2026-07, explicit) 喜欢吃榴莲
 
 ## 健康习惯
 

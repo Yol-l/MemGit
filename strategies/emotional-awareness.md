@@ -1,6 +1,6 @@
 ---
 summary: "情绪感知规则"
-read_when://n  - 需要感知情绪时
+read_when:  - 需要感知情绪时
 write_rules: |
   从语气捕捉不主动问
 ---
