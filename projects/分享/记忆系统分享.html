@@ -6,62 +6,56 @@
 <title>AI 大模型记忆系统 — 设计与实践</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Noto Sans SC', sans-serif; background: #0a0a0f; color: #e0e0e0; }
-.slide { max-width: 1140px; min-height: 100vh; margin: 0 auto; padding: 80px 60px; display: flex; flex-direction: column; justify-content: center; position: relative; }
-.slide::after { content: attr(data-n); position: absolute; bottom: 30px; right: 40px; font-size: 13px; color: #555; }
-.cover { background: linear-gradient(160deg, #0d0d2b 0%, #1a1040 50%, #0d1b2d 100%); text-align: center; }
-.cover h1 { font-size: 56px; font-weight: 800; letter-spacing: 2px; background: linear-gradient(135deg, #64b5f6, #ce93d8, #81c784); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 16px; }
-.cover .sub { font-size: 20px; color: #6a6a8a; margin-bottom: 60px; }
-.cover .meta { font-size: 14px; color: #484860; }
-h2 { font-size: 34px; font-weight: 700; margin-bottom: 32px; color: #fff; border-left: 4px solid #64b5f6; padding-left: 20px; }
-h3 { font-size: 20px; font-weight: 600; margin-bottom: 12px; color: #b0b8e0; }
-p { font-size: 15px; line-height: 1.8; color: #a0a0b8; }
-.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 20px 0; }
-.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 20px 0; }
-.card { background: #14142a; border-radius: 14px; padding: 28px 24px; border: 1px solid #1e1e3a; transition: transform 0.2s, border-color 0.2s; }
-.card:hover { border-color: #64b5f6; transform: translateY(-2px); }
-.card h3 { font-size: 18px; margin-bottom: 10px; }
-.card p { font-size: 13px; color: #7880a0; }
-.card .card-icon { font-size: 28px; margin-bottom: 12px; }
-.tag { display: inline-block; font-size: 11px; padding: 4px 12px; border-radius: 20px; margin-bottom: 10px; font-weight: 600; letter-spacing: 0.5px; }
-.tag.blue { background: rgba(100,181,246,0.15); color: #64b5f6; border: 1px solid rgba(100,181,246,0.3); }
-.tag.green { background: rgba(129,199,132,0.15); color: #81c784; border: 1px solid rgba(129,199,132,0.3); }
-.tag.purple { background: rgba(206,147,216,0.15); color: #ce93d8; border: 1px solid rgba(206,147,216,0.3); }
-.tag.orange { background: rgba(255,183,77,0.15); color: #ffb74d; border: 1px solid rgba(255,183,77,0.3); }
-.tag.red { background: rgba(229,115,115,0.15); color: #e57373; border: 1px solid rgba(229,115,115,0.3); }
-.comp-table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 20px 0; font-size: 14px; border-radius: 12px; overflow: hidden; border: 1px solid #1e1e3a; }
-.comp-table th { background: #12122a; text-align: left; padding: 14px 20px; font-weight: 600; color: #b0b8e0; font-size: 13px; border-bottom: 2px solid #1e1e3a; }
-.comp-table td { padding: 14px 20px; border-bottom: 1px solid #14142a; color: #a0a0b8; background: #0e0e20; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Noto Sans SC', sans-serif; background: #f0f2f5; color: #1a1a2e; }
+.slide { max-width: 1140px; min-height: 100vh; margin: 20px auto; padding: 80px 60px; display: flex; flex-direction: column; justify-content: center; position: relative; background: #fff; border-radius: 16px; box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
+.slide::after { content: attr(data-n); position: absolute; bottom: 24px; right: 32px; font-size: 12px; color: #c0c0c8; }
+.cover { background: linear-gradient(150deg, #e8eeff 0%, #f0e6ff 100%); text-align: center; }
+.cover h1 { font-size: 56px; font-weight: 800; letter-spacing: 1px; background: linear-gradient(135deg, #3b5de7, #8b5cf6, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 16px; }
+.cover .sub { font-size: 20px; color: #6b7280; margin-bottom: 60px; }
+.cover .meta { font-size: 14px; color: #9ca3af; }
+h2 { font-size: 30px; font-weight: 700; margin-bottom: 28px; color: #111827; border-left: 4px solid #3b5de7; padding-left: 18px; }
+h3 { font-size: 19px; font-weight: 600; margin-bottom: 10px; color: #374151; }
+p { font-size: 15px; line-height: 1.8; color: #4b5563; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin: 20px 0; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin: 20px 0; }
+.card { background: #fafbfc; border-radius: 14px; padding: 28px 24px; border: 1px solid #e5e7eb; transition: box-shadow 0.2s; }
+.card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+.card h3 { font-size: 18px; margin-bottom: 8px; }
+.card p { font-size: 14px; color: #6b7280; }
+.card .icon { font-size: 26px; margin-bottom: 10px; }
+.tag { display: inline-block; font-size: 11px; padding: 4px 12px; border-radius: 20px; margin-bottom: 10px; font-weight: 600; }
+.tag.blue { background: #e0e7ff; color: #4338ca; }
+.tag.green { background: #d1fae5; color: #065f46; }
+.tag.purple { background: #ede9fe; color: #6d28d9; }
+.tag.orange { background: #fef3c7; color: #92400e; }
+.tag.red { background: #fee2e2; color: #991b1b; }
+.comp-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; border-radius: 12px; overflow: hidden; border: 1px solid #e5e7eb; }
+.comp-table th { background: #f3f4f6; text-align: left; padding: 14px 20px; font-weight: 600; color: #374151; font-size: 13px; border-bottom: 2px solid #e5e7eb; }
+.comp-table td { padding: 14px 20px; border-bottom: 1px solid #f3f4f6; color: #4b5563; }
 .comp-table tr:last-child td { border-bottom: none; }
-.comp-table tr:hover td { background: #12122a; }
-.comp-table .highlight-row td { background: rgba(100,181,246,0.06); }
-.highlight { background: rgba(255,183,77,0.08); padding: 20px 24px; border-radius: 12px; border-left: 4px solid #ffb74d; margin: 20px 0; font-size: 14px; color: #b0a080; }
-.flow { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; margin: 32px 0; }
-.flow-step { padding: 14px 24px; border-radius: 10px; font-size: 13px; font-weight: 600; }
-.flow-step.s1 { background: rgba(100,181,246,0.15); color: #64b5f6; border: 1px solid rgba(100,181,246,0.3); }
-.flow-step.s2 { background: rgba(206,147,216,0.15); color: #ce93d8; border: 1px solid rgba(206,147,216,0.3); }
-.flow-step.s3 { background: rgba(129,199,132,0.15); color: #81c784; border: 1px solid rgba(129,199,132,0.3); }
-.flow-step.s4 { background: rgba(255,183,77,0.15); color: #ffb74d; border: 1px solid rgba(255,183,77,0.3); }
-.flow-arrow { font-size: 18px; color: #444; margin: 0 2px; }
-.code-block { background: #0a0a18; border-radius: 12px; padding: 24px; font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 14px; line-height: 1.9; color: #90a0d0; border: 1px solid #1e1e3a; overflow-x: auto; }
-.code-block .comment { color: #484860; }
-.code-block .dir { color: #64b5f6; }
-.code-block .file { color: #81c784; }
-.code-block .arrow { color: #ffb74d; }
-.big-num { font-size: 52px; font-weight: 800; background: linear-gradient(135deg, #64b5f6, #ce93d8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.principles { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
-.principle { background: #14142a; border-radius: 12px; padding: 20px 24px; border-left: 4px solid #64b5f6; }
-.principle.core { border-left-color: #ffb74d; }
-.principle h4 { font-size: 15px; margin-bottom: 6px; color: #e0e0e0; }
-.principle p { font-size: 13px; color: #7880a0; }
-.loop-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0; }
-.loop-card { background: #14142a; border-radius: 12px; padding: 20px; text-align: center; }
-.loop-card .icon { font-size: 32px; margin-bottom: 8px; }
-.loop-card h4 { font-size: 14px; color: #e0e0e0; margin-bottom: 4px; }
-.loop-card p { font-size: 12px; color: #666; }
-.end { background: linear-gradient(160deg, #0d0d2b, #1a1040); text-align: center; }
-.end h2 { border: none; font-size: 40px; padding: 0; margin-bottom: 16px; }
-.end p { font-size: 16px; }
+.comp-table tr:hover td { background: #f9fafb; }
+.comp-table .highlight-row td { background: #eff6ff; }
+.highlight { background: #fffbeb; padding: 18px 22px; border-radius: 10px; border-left: 4px solid #f59e0b; margin: 20px 0; font-size: 14px; color: #78350f; }
+.flow { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; margin: 28px 0; }
+.flow-step { padding: 12px 22px; border-radius: 8px; font-size: 14px; font-weight: 600; }
+.flow-step.s1 { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+.flow-step.s2 { background: #f5f3ff; color: #6d28d9; border: 1px solid #ddd6fe; }
+.flow-step.s3 { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+.flow-step.s4 { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
+.flow-arrow { font-size: 18px; color: #c0c0c8; margin: 0 2px; }
+.code-block { background: #1e293b; border-radius: 12px; padding: 24px; font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 14px; line-height: 1.9; color: #e2e8f0; border: 1px solid #334155; overflow-x: auto; }
+.code-block .comment { color: #64748b; }
+.code-block .dir { color: #60a5fa; }
+.code-block .file { color: #34d399; }
+.big-num { font-size: 48px; font-weight: 800; background: linear-gradient(135deg, #3b5de7, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.principles { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 20px 0; }
+.principle { background: #fafbfc; border-radius: 12px; padding: 18px 22px; border-left: 4px solid #3b5de7; }
+.principle.core { border-left-color: #f59e0b; background: #fffbeb; }
+.principle h4 { font-size: 14px; margin-bottom: 4px; color: #1a1a2e; }
+.principle p { font-size: 13px; color: #6b7280; }
+.end { background: linear-gradient(150deg, #e8eeff, #f0e6ff); text-align: center; }
+.end h2 { border: none; font-size: 38px; padding: 0; margin-bottom: 14px; }
+.end p { font-size: 16px; color: #6b7280; }
 </style>
 </head>
 <body>
@@ -74,25 +68,25 @@ p { font-size: 15px; line-height: 1.8; color: #a0a0b8; }
 
 <div class="slide" data-n="1">
   <h2>AI 记忆的基本问题</h2>
-  <p style="font-size:18px;margin-bottom:28px;">大模型先天无状态——每次对话都是"初次见面"。它不记得你是谁。</p>
+  <p style="font-size:17px;margin-bottom:24px;">大模型先天无状态——每次对话都是"初次见面"。它不记得你是谁、你们聊过什么。</p>
   <div class="grid-3">
     <div class="card">
-      <div class="card-icon" style="color:#64b5f6">&#9638;</div>
+      <div class="icon">&#9638;</div>
       <span class="tag blue">挑战 1</span>
       <h3>上下文窗口有限</h3>
-      <p>最先进的模型也只有约 200K token——对话一长就把早期的信息挤掉了。</p>
+      <p>最先进的模型也只有约 200K token。对话一长，早期信息就被挤掉了——像只能记住最近 20 分钟对话的人。</p>
     </div>
     <div class="card">
-      <div class="card-icon" style="color:#e57373">&#9888;</div>
+      <div class="icon">&#9888;</div>
       <span class="tag red">挑战 2</span>
       <h3>AI 有幻觉</h3>
-      <p>记住的内容可能完全是捏造的，而且会自信地复述，用户难以察觉。</p>
+      <p>记住的内容可能是捏造的——而且会自信地复述。用户很难察觉，错误信息会持续污染后续对话。</p>
     </div>
     <div class="card">
-      <div class="card-icon" style="color:#ffb74d">&#8635;</div>
+      <div class="icon">&#8635;</div>
       <span class="tag orange">挑战 3</span>
       <h3>跨会话空白</h3>
-      <p>每次新对话从头开始，没有连续性。AI 无法积累对用户的长期理解。</p>
+      <p>每次新对话从零开始。一个星期后回来，AI 连你叫什么都不知道。没有连续性。</p>
     </div>
   </div>
 </div>
@@ -103,23 +97,23 @@ p { font-size: 15px; line-height: 1.8; color: #a0a0b8; }
     <div class="card">
       <span class="tag purple">路线一</span>
       <h3>外置记忆库</h3>
-      <p>最成熟，商业化最充分</p>
-      <p style="margin-top:10px;">不改变模型，在外面建数据库。对话时检索并注入上下文。像外接硬盘。</p>
-      <p style="margin-top:10px;font-size:12px;color:#555;">Mem0 · Letta · Graphiti</p>
+      <p style="font-size:13px;color:#888;margin-bottom:6px;">最成熟，商业化最充分</p>
+      <p>不改变模型，在外面建数据库。对话时检索并注入上下文，像外接硬盘。</p>
+      <p style="margin-top:8px;font-size:12px;color:#999;">代表：Mem0 · Letta · Graphiti</p>
     </div>
     <div class="card">
       <span class="tag green">路线二</span>
       <h3>参数化记忆</h3>
-      <p>效果最好，成本最高</p>
-      <p style="margin-top:10px;">把知识微调进模型权重，让它变成"肌肉记忆"。不需要检索就能用。</p>
-      <p style="margin-top:10px;font-size:12px;color:#555;">Character.AI · Gorilla</p>
+      <p style="font-size:13px;color:#888;margin-bottom:6px;">效果最好，成本最高</p>
+      <p>把知识微调进模型权重，像"肌肉记忆"——不需要检索就能用。</p>
+      <p style="margin-top:8px;font-size:12px;color:#999;">代表：Character.AI · Gorilla</p>
     </div>
     <div class="card">
       <span class="tag orange">路线三</span>
       <h3>隐式记忆</h3>
-      <p>最新，效率最高</p>
-      <p style="margin-top:10px;">不存具体内容，存"思考时的脑活动模式"——KV Cache 智能管理。</p>
-      <p style="margin-top:10px;font-size:12px;color:#555;">Google CoMEM</p>
+      <p style="font-size:13px;color:#888;margin-bottom:6px;">最新，效率最高</p>
+      <p>不存具体内容，存"思考时的脑活动模式"——KV Cache 智能管理。</p>
+      <p style="margin-top:8px;font-size:12px;color:#999;">代表：Google CoMEM</p>
     </div>
   </div>
   <div class="highlight">
@@ -128,43 +122,40 @@ p { font-size: 15px; line-height: 1.8; color: #a0a0b8; }
 </div>
 
 <div class="slide" data-n="3">
-  <h2>我感兴趣的方向：用 Git 管理记忆</h2>
-  <p style="margin-bottom:24px;">轻量、透明、用户拥有数据——这是一个正在探索的个人项目。</p>
+  <h2>我感兴趣的方向：Git + 纯文本管理记忆</h2>
+  <p style="margin-bottom:20px;">轻量、透明、用户拥有数据——正在探索的个人项目。</p>
   <div class="comp-table">
-    <tr><th>方案</th><th>存储方式</th><th>我的关注点</th></tr>
-    <tr><td>Mem0</td><td>向量数据库</td><td>检索靠相似度，AI 无法自行判断哪条有用——有些重</td></tr>
-    <tr><td>Letta (MemGPT)</td><td>三层内存架构</td><td>系统设计优秀，但与平台绑定，不跨工具</td></tr>
-    <tr><td>ChatGPT 记忆</td><td>服务端黑箱</td><td>用户看不到、改不了、拿不走</td></tr>
+    <tr><th>方案</th><th>存储方式</th><th>我的观察</th></tr>
+    <tr><td>Mem0</td><td>向量数据库</td><td>检索靠相似度——AI 没法自行判断哪条记忆在当前语境下最有用</td></tr>
+    <tr><td>Letta (MemGPT)</td><td>三层内存架构</td><td>系统设计优秀，但与平台绑定，不能跨工具使用</td></tr>
+    <tr><td>ChatGPT 记忆</td><td>服务端黑箱</td><td>用户看不到记了什么、改不了、拿不走</td></tr>
     <tr class="highlight-row"><td><strong>Git + Skills</strong></td><td>Markdown + Git</td><td>透明、轻量、用户拥有完整数据控制权——我在尝试的方向</td></tr>
-  </div>
-  <div class="highlight">
-    探索：一套"用户拥有数据、AI 自我维护、跨平台通用"的记忆方案。不一定是最好的，但值得一试。
   </div>
 </div>
 
 <div class="slide" data-n="4">
-  <h2>MemGit 的设计：文件即记忆</h2>
+  <h2>系统结构：文件即记忆</h2>
   <div class="code-block">
 <span class="dir">memories/</span>
 ├── <span class="file">IDENTITY.md</span>           <span class="comment">你是谁</span>
 ├── <span class="file">INDEX.md</span>              <span class="comment">记忆导航图</span>
 ├── <span class="dir">knowledge/</span>             <span class="comment">个人记忆（不限文件）</span>
-│   ├── <span class="file">events.md</span>          <span class="comment">近期事件（时间段）</span>
+│   ├── <span class="file">events.md</span>          <span class="comment">近期事件</span>
 │   ├── <span class="file">principles.md</span>      <span class="comment">价值观与原则</span>
+│   ├── <span class="file">habits.md</span>          <span class="comment">习惯与风格</span>
 │   ├── <span class="file">learning.md</span>        <span class="comment">学习成长</span>
 │   └── <span class="file">goals.md</span>           <span class="comment">人生目标</span>
 ├── <span class="dir">projects/</span>             <span class="comment">项目记忆（一个项目一个目录）</span>
-│   ├── <span class="dir">memgit/</span>           <span class="comment">MemGit 系统建设</span>
-│   └── <span class="dir">分享/</span>             <span class="comment">部门技术分享</span>
-├── <span class="dir">strategies/</span>           <span class="comment">记忆维护策略（可共享）</span>
-└── <span class="dir">library/</span>              <span class="comment">代码资料（按需读）</span>
+│   ├── <span class="dir">memgit/</span>           <span class="comment">MemGit 建设</span>
+│   └── <span class="dir">分享/</span>             <span class="comment">本次部门分享</span>
+└── <span class="dir">strategies/</span>           <span class="comment">记忆维护策略（可共享）</span>
   </div>
-  <p style="margin-top:16px;font-size:14px;color:#666;">纯文本 · 纯本地 · 任意平台通用 · Git 版本控制</p>
+  <p style="margin-top:16px;font-size:14px;color:#888;">纯文本 · 无平台依赖 · Git 版本控制 · 任意 AI 工具通用</p>
 </div>
 
 <div class="slide" data-n="5">
-  <h2>核心原则：自成长 + 异常恢复</h2>
-  <p style="margin-bottom:24px;color:#ffb74d;font-size:15px;">此系统的存在意义。不可修改，后续一切围绕它们展开。</p>
+  <h2>核心原则</h2>
+  <p style="margin-bottom:20px;color:#f59e0b;font-size:15px;font-weight:600;">系统的存在意义——不可修改，后续一切围绕它们展开。</p>
   <div class="principles">
     <div class="principle core">
       <h4>自成长</h4>
@@ -180,7 +171,7 @@ p { font-size: 15px; line-height: 1.8; color: #a0a0b8; }
     </div>
     <div class="principle">
       <h4>规则在先</h4>
-      <p>先定规则再建文件。每条写入经过 8 条硬边界自检。</p>
+      <p>先定规则再建文件。每条写入经过 8 条硬边界自检。AI 不能自由发挥。</p>
     </div>
     <div class="principle">
       <h4>主动感知</h4>
@@ -194,35 +185,19 @@ p { font-size: 15px; line-height: 1.8; color: #a0a0b8; }
 </div>
 
 <div class="slide" data-n="6">
-  <h2>每轮对话的五步流转</h2>
+  <h2>每轮对话的流转</h2>
   <div class="flow">
-    <div class="flow-step s1">用户发言</div>
-    <span class="flow-arrow">→</span>
-    <div class="flow-step s2">过记忆</div>
-    <span class="flow-arrow">→</span>
-    <div class="flow-step s3">自然接话</div>
-    <span class="flow-arrow">→</span>
-    <div class="flow-step s4">记不记</div>
-    <span class="flow-arrow">→</span>
-    <div class="flow-step s1">自检 + 审计</div>
+    <div class="flow-step s1">用户发言</div><span class="flow-arrow">→</span>
+    <div class="flow-step s2">过记忆</div><span class="flow-arrow">→</span>
+    <div class="flow-step s3">自然接话</div><span class="flow-arrow">→</span>
+    <div class="flow-step s4">记不记</div><span class="flow-arrow">→</span>
+    <div class="flow-step s1">自检+审计</div>
   </div>
-  <div class="grid-2" style="margin-top:32px;">
-    <div class="card">
-      <h4 style="color:#64b5f6;margin-bottom:8px;">读取</h4>
-      <p>每次启动：身份 → 事件 → 索引 → 渐进按需深入。只读必要的。</p>
-    </div>
-    <div class="card">
-      <h4 style="color:#81c784;margin-bottom:8px;">写入</h4>
-      <p>归属判断 → 读文件 write_rules → 按规则写 → 8 条硬边界自检 → 阈值检查。</p>
-    </div>
-    <div class="card">
-      <h4 style="color:#e57373;margin-bottom:8px;">自愈</h4>
-      <p>用户否认 → 立即修正 + 同级降级 → 不再引用 → 自然话题确认。</p>
-    </div>
-    <div class="card">
-      <h4 style="color:#ffb74d;margin-bottom:8px;">审计</h4>
-      <p>每次会话结束：变更摘要 + git commit + push。下次启动自检校验一致性。</p>
-    </div>
+  <div class="grid-2" style="margin-top:28px;">
+    <div class="card"><h4 style="color:#1d4ed8;">读取：启动</h4><p style="font-size:13px;">身份 → 事件 → 索引 → 渐进按需深入。只读必要的，不塞满上下文。</p></div>
+    <div class="card"><h4 style="color:#065f46;">写入：每轮</h4><p style="font-size:13px;">归属判断 → 读 write_rules → 按规则写 → 8 条自检 → 阈值检查。</p></div>
+    <div class="card"><h4 style="color:#991b1b;">自愈：随时</h4><p style="font-size:13px;">用户否认 → 修正 + 降级 → 不再引用 → 自然确认恢复。</p></div>
+    <div class="card"><h4 style="color:#92400e;">审计：收尾</h4><p style="font-size:13px;">每次会话结束输出变更摘要，写入 git commit。下次启动校验一致性。</p></div>
   </div>
 </div>
 
@@ -231,77 +206,42 @@ p { font-size: 15px; line-height: 1.8; color: #a0a0b8; }
   <div class="comp-table">
     <tr><th>闭环</th><th>机制</th><th>频率</th></tr>
     <tr><td>记忆闭环</td><td>写入 → 自检 → 修复 → 审计 → 下次验证</td><td>每会话</td></tr>
-    <tr><td>自成长闭环</td><td>系统反思 4 维度 → 信号积累 → 达阈值 → 自适应协议</td><td>每 5 轮</td></tr>
+    <tr><td>自成长闭环</td><td>系统反思 4 维度 → 信号积累 → 达阈值 → 自适应</td><td>每 5 轮</td></tr>
     <tr><td>异常恢复闭环</td><td>用户否认 → 修正 + 降级 → 不再引用 → 自然确认</td><td>用户触发</td></tr>
-    <tr><td>规则闭环</td><td>观察违规 → 提议改规则 → 用户确认 → 归档旧规则</td><td>30 会话/次</td></tr>
-    <tr><td>膨胀合并闭环</td><td>H2 超 30 行 → 压缩 → 存档超 50 行 → 二次压缩</td><td>P0 即时</td></tr>
+    <tr><td>规则闭环</td><td>观察违规 → 提议改规则 → 用户确认 → 归档</td><td>30 会话/次</td></tr>
+    <tr><td>膨胀合并闭环</td><td>H2 超 30 行 → 压缩 → 存档超 50 行 → 二次压缩</td><td>即时</td></tr>
   </div>
-  <div class="highlight" style="margin-top:24px;">
-    五个闭环嵌套运行。高频的保证内容质量，低频的保证规则质量。系统不依赖外部维护，自己检查、自己修复、自己进化。
+  <div class="highlight" style="margin-top:20px;">
+    五个闭环嵌套运行。高频保证内容质量，低频保证规则质量。系统不依赖外部——自己检查、自己修复、自己进化。
   </div>
 </div>
 
 <div class="slide" data-n="8">
-  <h2>设计中想实现的自愈机制</h2>
-  <div class="grid-2">
-    <div class="card" style="border-left: 3px solid #e57373;">
-      <h4 style="color:#e57373;">发现错误记忆</h4>
-      <p style="margin-top:8px;">当 AI 引用了错误记忆，用户只需说"我没有这样说"或"这个不对"。</p>
-    </div>
-    <div class="card" style="border-left: 3px solid #81c784;">
-      <h4 style="color:#81c784;">系统自动处理</h4>
-      <p style="margin-top:8px;">AI 立即修正该条目，同时将同一批次写入的记忆降级为"存疑"。</p>
-    </div>
-    <div class="card" style="border-left: 3px solid #ffb74d;">
-      <h4 style="color:#ffb74d;">降级不再引用</h4>
-      <p style="margin-top:8px;">存疑的记忆不再出现在主动建议中，只等用户自己重新提起。</p>
-    </div>
-    <div class="card" style="border-left: 3px solid #64b5f6;">
-      <h4 style="color:#64b5f6;">自然恢复</h4>
-      <p style="margin-top:8px;">用户在后续对话中自然确认正确版本 → 升级为"确认的"，恢复正常使用。</p>
-    </div>
-  </div>
-  <p style="margin-top:24px;color:#7880a0;">不需要用户主动"修改"——正常对话中自然纠正，每轮对话都是修复机会。</p>
-</div>
-
-<div class="slide" data-n="9">
-  <h2>一次完整的设计迭代</h2>
-  <div class="grid-3" style="margin-top:8px;margin-bottom:24px;">
+  <h2>设计数据</h2>
+  <div class="grid-3" style="margin:20px 0 24px;">
     <div class="card" style="text-align:center;"><div class="big-num">50+</div><p>次设计提交</p></div>
-    <div class="card" style="text-align:center;"><div class="big-num">30+</div><p>轮模拟对话</p></div>
+    <div class="card" style="text-align:center;"><div class="big-num">30+</div><p>轮模拟对话验证</p></div>
     <div class="card" style="text-align:center;"><div class="big-num">30+</div><p>处漏洞在验证中修复</p></div>
   </div>
   <div class="highlight">
-    <strong>关键数据</strong>：20 个文件 · 5 个闭环 · 14+ 项自检 · 8 条硬边界 · 6 条核心原则。这不是 demo，是经过反复验证的系统架构。
+    <strong>20 个文件</strong> · <strong>5 个闭环</strong> · <strong>14+ 项自检</strong> · <strong>8 条硬边界</strong> · <strong>6 条核心原则</strong>。不是 demo——是经过反复验证的系统。
   </div>
 </div>
 
-<div class="slide" data-n="10">
+<div class="slide" data-n="9">
   <h2>设计理念</h2>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:20px 0;">
-    <div style="border-left:3px solid #81c784;padding-left:20px;">
-      <h4 style="color:#81c784;margin-bottom:8px;">记忆是待验证的断言</h4>
-      <p style="font-size:14px;">AI 会错——但每轮对话都是修复机会</p>
-    </div>
-    <div style="border-left:3px solid #64b5f6;padding-left:20px;">
-      <h4 style="color:#64b5f6;margin-bottom:8px;">用户拥有数据</h4>
-      <p style="font-size:14px;">纯文本 + Git，数据是你的，AI 只是帮忙维护</p>
-    </div>
-    <div style="border-left:3px solid #ffb74d;padding-left:20px;">
-      <h4 style="color:#ffb74d;margin-bottom:8px;">自成长 > 完美初始设计</h4>
-      <p style="font-size:14px;">不追求一次性完美，系统自己演化和修复</p>
-    </div>
-    <div style="border-left:3px solid #ce93d8;padding-left:20px;">
-      <h4 style="color:#ce93d8;margin-bottom:8px;">规则决定一切</h4>
-      <p style="font-size:14px;">AI 不能自由发挥——先定规则，后执行</p>
-    </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:20px 0;">
+    <div style="border-left:3px solid #10b981;padding-left:18px;"><h4 style="margin-bottom:6px;">记忆是待验证的断言</h4><p style="font-size:14px;">AI 会错——但每轮对话都是修复机会。</p></div>
+    <div style="border-left:3px solid #3b5de7;padding-left:18px;"><h4 style="margin-bottom:6px;">用户拥有数据</h4><p style="font-size:14px;">纯文本 + Git，数据是你的。</p></div>
+    <div style="border-left:3px solid #f59e0b;padding-left:18px;"><h4 style="margin-bottom:6px;">自成长 > 完美初始设计</h4><p style="font-size:14px;">不追求一次性完美，系统自己演化和修复。</p></div>
+    <div style="border-left:3px solid #8b5cf6;padding-left:18px;"><h4 style="margin-bottom:6px;">规则决定一切</h4><p style="font-size:14px;">AI 不能自由发挥——先定规则，后执行。</p></div>
   </div>
 </div>
 
 <div class="slide end" data-n="">
-  <h2 style="border:none;padding:0;color:#fff;">谢谢</h2>
-  <p>探索中的个人项目，欢迎交流、讨论、拍砖</p>
-  <p style="margin-top:40px;font-size:13px;color:#484860;">github.com/Yol-l/MemGit</p>
+  <h2 style="border:none;padding:0;">谢谢</h2>
+  <p style="font-size:17px;">探索中的个人项目，欢迎交流讨论</p>
+  <p style="margin-top:40px;font-size:13px;color:#9ca3af;">github.com/Yol-l/MemGit</p>
 </div>
 
 </body>
