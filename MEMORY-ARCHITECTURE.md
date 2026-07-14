@@ -17,11 +17,14 @@ write_rules: |
 memories/
 ├── MEMORY-ARCHITECTURE.md          # 本文件 — 架构总览（先读）
 ├── CHANGELOG.md                    # 架构演化记录
+├── SKILL.md                        # 执行流程定义（仓库内备份）
+├── scripts/memgit.py               # 管理脚本
 ├── IDENTITY.md                     # 用户身份（必读）
 ├── INDEX.md                        # 知识文件索引
 │
 ├── knowledge/                      # 个人记忆
 │   ├── events.md                   # 近期事件（时间段）
+│   ├── system-signals.md           # 系统自学习信号
 │   ├── principles.md               # 价值观原则
 │   ├── habits.md                   # 习惯风格
 │   ├── investments.md              # 投资
@@ -45,21 +48,12 @@ memories/
     └── emotional-awareness.md      # 情绪感知（按需）
 ```
 
-## 启动加载流程
+## 启动加载流程（详见 SKILL.md）
 
 ```
-MEMORY-ARCHITECTURE.md ─→ 理解结构
-        ↓
-system-control.md      ─→ 知道硬边界和自检规则
-        ↓
-IDENTITY.md             ─→ 知道你是谁
-        ↓
-INDEX.md + events.md    ─→ 知道记忆全景和最近动态
-        ↓
-渐进式加载 knowledge/   ─→ 按话题按需深入
+config → git pull → ARCHITECTURE → system-control → IDENTITY
+→ events → 自检 → INDEX → projects → knowledge 渐进读 → 启动摘要
 ```
-
-**成本**：启动固定开销 ~1500 token（架构 + 控制 + 身份 + 索引 + 事件），比之前少 40%（不再读 SKILL.md + 多个策略文件）。
 
 ## 每种内容的读取策略
 
