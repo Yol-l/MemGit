@@ -208,6 +208,8 @@ cd ~/.workbuddy/memories && git add -A && git commit -m "[MemGit] update" && git
 ```
 push 失败 → `git pull --rebase` → 仍有 conflict 则保留双方版本加标记。
 
+**离线场景**：无网络时 push 失败是正常的。本地 commit 会累积，下次有网络时自动同步。不要因为 push 失败就停止写入。但若多设备同时离线使用，回来后可能有冲突——此时保留双方版本。
+
 commit message 必须包含审计摘要，格式：`变更 X 文件 | 违规 0 | 压缩 0 | 新建 0`
 
 **会话审计**（嵌入回复中，自然带过）：
