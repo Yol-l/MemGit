@@ -17,6 +17,7 @@ write_rules: |
 
 | 文件 | Summary | 读取时机 |
 |------|---------|---------|
+| `knowledge/events.md` | 近期持续性事件和进度 | 会话启动时扫一眼 |
 | `knowledge/principles.md` | 价值观、做事原则、决策准则 | 涉及方向性判断时 |
 | `knowledge/habits.md` | 工作习惯、沟通偏好、工具偏好 | 需要适配风格时 |
 | `knowledge/investments.md` | 投资理念、策略、持仓 | 讨论投资话题时 |
