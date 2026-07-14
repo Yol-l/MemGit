@@ -63,6 +63,8 @@ agent_created: true
 - 能归入但现有 H2 都不匹配 → 在已有文件中**新建 H2**
 - **确实无法归入**任何已有文件 → 直接新建 `knowledge/主题.md`
 
+**事件关联同步**：当 events.md 新增一条带 `→ xxx.md` 引用的事件时，同步在被引用文件中追加对应内容。例如 `(07-14 – 至今) [学习] 考虑读 MBA → learning.md` → learning.md 的对应 H2 也追加"考虑读 MBA"。
+
 **每个文件在 frontmatter 中自带 `write_rules`** → 打开文件时先读它，按规则写入，不允许自由发挥。
 
 ### 新建文件的规则
