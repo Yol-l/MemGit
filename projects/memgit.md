@@ -3,8 +3,11 @@ summary: "MemGit — Git 驱动的 AI 长期记忆系统"
 status: active
 tech_stack: [Python, Markdown, Git]
 repo: "https://github.com/Yol-l/MemGit"
-docs: "https://github.com/Yol-l/MemGit (文档在仓库 README 和 skill 文件中)"
+docs: "https://github.com/Yol-l/MemGit"
 created: 2026-07-13
+read_when:
+  - 迭代 MemGit 时
+  - 回忆设计决策时
 write_rules: |
   只记录项目级决策和经验教训
   不记录代码细节（代码在仓库里）
